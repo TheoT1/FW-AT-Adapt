@@ -576,15 +576,12 @@ class AdversarialTrainer:
 
         pd.DataFrame(results, index=[0]).to_csv(csv_path, **save_args)
 
-
-    def forward(self, x, inplace=True):
-        return model_n(self.model, x, inplace=inplace)
+    def forward(self, x):
+        return model_n(self.model, x)
 
 # ===========================================================
 # Helper functions
 
-mean = (0.4914, 0.4822, 0.4465)
-std = (0.2023, 0.1994, 0.2010)
 
 def find_adv_input_fw(
     model, x, y, epsilon, K, c, device, adv_norm="Linf", loss_fn=nn.CrossEntropyLoss(),initialize="zero", stage="train"
@@ -679,36 +676,18 @@ def find_adv_input_pgd(
         delta.grad.zero_()
     return delta.detach()
 
-
-def model_n(model, x, inplace=True)->torch.Tensor:
+    
+def model_n(model, x, mean=(0.4914, 0.4822, 0.4465), std=(0.2023, 0.1994, 0.2010))->torch.Tensor:
     """ Input normalization and model evaluation """
-    xn = normalize(x, mean, std, inplace=inplace)
+    xn = normalize(x, mean, std)
     outputs = model(xn)
     return outputs
 
 
-def normalize(tensor, mean, std, inplace=True):
-    if inplace:
-        for t, m, s in zip(tensor, mean, std):
-            t.sub_(m).div_(s)
-        return tensor
-    else:
-        tensor2 = tensor.clone()
-        for t, m, s in zip(tensor2, mean, std):
-            t.sub_(m).div_(s)
-        return tensor2
-
-
-def inv_normalize(tensor, mean, std, inplace=True):
-    #for t, m, s in zip(tensor, mean, std):
-    for i in enumerate(zip(tensor, mean, std)):
-        t, m, s = tensor[i], mean[i], std[i]
-        if inplace:
-            t.mul_(s).add_(m)
-        else:
-            t = torch.mul(t, s)
-            t = torch.add(m)
-            tensor[i] = t
+def normalize(tensor, mean, std):
+    for t, m, s in zip(tensor, mean, std):
+        t = t - m
+        t = torch.div(t, s)
     return tensor
 
 
