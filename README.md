@@ -1,18 +1,18 @@
 # Understanding and Increasing Efficiency of Frank-Wolfe Adversarial Training
 
-Preprint: https://arxiv.org/abs/2012.12368
+**Understanding and Increasing Efficiency of Frank-Wolfe Adversarial Training**\
+Theodoros Tsiligkaridis, Jay Roberts\
+_Conference on Computer Vision and Pattern Recognition, CVPR 2022_\
+[[arXiv](https://arxiv.org/abs/2012.12368)]
 
 ## Overview and Key Ideas
 
-This is the source code used to run experiments in the paper: 
-_Understanding and Increasing Efficiency of Frank-Wolfe Adversarial Training_ .
-
-The goal is to speed up adversarial training (AT) without sacrificing robustness via a solid mathematical theory. By using the more mathematically transparent Frank-Wolfe (FW) optimization in place of the more popular Projected Gradient Decent (PGD) we are able to derive a relationship between the loss landscape and the L2 norm of L-infinity FW attacks (distortion).  We show the following properties
+The goal is to speed up adversarial training (AT) without sacrificing robustness via a solid mathematical theory. By using the more mathematically transparent Frank-Wolfe (FW) optimization in place of the more popular Projected Gradient Decent (PGD), a relationship is established between the loss landscape geometry and the L2 norm of L-infinity FW attacks (distortion).  We show the following properties
 
 - _High distortion high step attacks are inefficient_
 - _Low distortion signals existence of strong high step attacks that are likely to be successful_
 
-In particular we show that this distortion is a strong signal for catastrophic overfitting (CO) in single step adversarial training methods even for the relatively weak FW-2 attacks. By monitoring the distortion of a FW-2 attack during the beginning of a training epoch we are able to adaptively change the number of attack steps **all while simultaneously performing AT**. FW-Adapt can train faster than strong multi-step AT methods, such as PGD-7, while avoiding CO of fast single step methods.
+This distortion is a strong signal for catastrophic overfitting (CO) in single-step adversarial training methods even for the relatively weak FW-2 attacks. By monitoring the distortion of a FW-2 attack during the beginning of a training epoch we are able to adaptively change the number of attack steps **all while simultaneously performing AT**. FW-Adapt trains models faster than strong multi-step AT methods, such as PGD-7, while avoiding CO of fast single-step methods.
 
 ## FW-Adapt Algorithm
 ![FW-Adapt Algorithm](images/fwadapt_alg.png)
@@ -140,6 +140,17 @@ Note these attacks are performed using the epsilon value chosen in `hparams.yaml
 ## License
 
 The code for FW-Adapt is licensed under the MIT License.
+
+## Citation
+For citing this paper or code, please use the following:
+
+> @inproceedings{FW_Adapt,\
+    &nbsp;&nbsp;title={Understanding and Increasing Efficiency of Frank-Wolfe Adversarial Training},\
+    &nbsp;&nbsp;author={Theodoros Tsiligkaridis and Jay Roberts},\
+    &nbsp;&nbsp;booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, CVPR},\
+    &nbsp;&nbsp;month={June},\
+    &nbsp;&nbsp;year={2022}\
+}
 
 
 ## Acknowledgement
